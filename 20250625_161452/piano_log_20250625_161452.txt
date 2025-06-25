@@ -1,8 +1,0 @@
-{key: "1", note: "C1", time :0}, 
-{key: "2", note: "D1", time :890}, 
-{key: "3", note: "D#1", time :1550}, 
-{key: "4", note: "F1", time :2557}, 
-{key: "1", note: "C1", time :0}, 
-{key: "2", note: "D1", time :438}, 
-{key: "3", note: "E1", time :1219}, 
-{key: "4", note: "F1", time :1682}, 
