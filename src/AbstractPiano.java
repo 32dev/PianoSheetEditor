@@ -63,7 +63,7 @@ public abstract class AbstractPiano extends JFrame {
         });
 
         setTitle(title);
-        setSize(200, 300);
+        setSize(300, 300);
         setLocationRelativeTo(null);
         add(scrollPane, BorderLayout.CENTER);
 
