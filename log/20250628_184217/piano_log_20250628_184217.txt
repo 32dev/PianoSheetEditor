@@ -1,0 +1,8 @@
+{key: "d", note: "G#4", time :0}, 
+{key: "f", note: "A#4", time :402}, 
+{key: "g", note: "C5", time :762}, 
+{key: "h", note: "D5", time :1119}, 
+{key: "j", note: "E5", time :1433}, 
+{key: "k", note: "F#5", time :2084}, 
+{key: "l", note: "G5", time :2430}, 
+{key: "x", note: "B5", time :2708}, 
