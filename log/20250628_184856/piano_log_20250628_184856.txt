@@ -1,0 +1,6 @@
+{key: "d", note: "D4", time :0}, 
+{key: "d", note: "D4", time :1167}, 
+{key: "d", note: "D4", time :2293}, 
+{key: "d", note: "D4", time :2941}, 
+{key: "d", note: "D4", time :3172}, 
+{key: "d", note: "D4", time :3325}, 
