@@ -17,7 +17,7 @@ public class Piano extends AbstractPiano {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			// JSON 파일 경로를 실제 경로에 맞게 바꾸세요
-			return mapper.readValue(new File("keymaps/" + keyMap + ".json"), new TypeReference<Map<String, String>>() {
+			return mapper.readValue(new File("basic_keymaps/" + keyMap + ".json"), new TypeReference<Map<String, String>>() {
 			});
 		} catch (IOException e) {
 			e.printStackTrace();
