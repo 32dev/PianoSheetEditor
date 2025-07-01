@@ -67,7 +67,7 @@ public class PianoMajorKeyMapGenerator {
 			folder.mkdirs(); // 폴더 없으면 생성
 		}
 
-		for (int j = 1; j <= 3; j++) {
+		for (int j = 0; j <= 1; j++) {
 			for (int i = 0; i < CHROMATIC_SCALE.length; i++) {
 				String rootNote = CHROMATIC_SCALE[i] + j;
 				Map<String, String> map = generateKeyToNoteMap(rootNote);

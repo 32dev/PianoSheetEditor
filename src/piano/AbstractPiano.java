@@ -1,6 +1,7 @@
 package piano;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -68,6 +69,7 @@ public abstract class AbstractPiano extends JFrame {
         }
 
         textArea = new JTextArea();
+//        textArea.setFont(new Font("Consolas", Font.PLAIN, 24));
         textArea.setLineWrap(true);
         scrollPane = new JScrollPane(textArea);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -111,7 +113,7 @@ public abstract class AbstractPiano extends JFrame {
                     long elapsed = currentTime - startTime;
                     long delta = currentTime - lastKeyTime;
 
-                    int spacesToAdd = (int) (delta / 125);
+                    int spacesToAdd = (int) (delta / 250);
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < spacesToAdd; i++)
                         sb.append(" ");

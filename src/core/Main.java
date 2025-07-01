@@ -4,6 +4,6 @@ import piano.Piano;
 
 public class Main {
 	public static void main(String[] args) {
-		new Piano("A1_minor");
+		new Piano("G0_major");
 	}
 }
