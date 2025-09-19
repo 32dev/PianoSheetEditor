@@ -1,0 +1,4 @@
+{key: "a", note: "B2", time :0}, 
+{key: "s", note: "C3", time :409}, 
+{key: "d", note: "D3", time :687}, 
+{key: "f", note: "E3", time :869}, 
