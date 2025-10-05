@@ -1,6 +1,0 @@
-{key: "S", note: "C#3", time :0}, 
-{key: "J", note: "A#3", time :1357}, 
-{key: "H", note: "G#3", time :2402}, 
-{key: "D", note: "D#3", time :3952}, 
-{key: "S", note: "C#3", time :4994}, 
-{key: "L", note: "C#4", time :6112}, 

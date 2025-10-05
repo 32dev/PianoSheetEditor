@@ -1,3 +1,0 @@
-{key: "1", note: "C1", time :0}, 
-{key: "2", note: "D1", time :398}, 
-{key: "3", note: "E1", time :720}, 
