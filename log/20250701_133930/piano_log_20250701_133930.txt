@@ -1,2 +1,0 @@
-{key: "&", note: "G#2", time :0}, 
-{key: "&", note: "G#2", time :1310}, 
