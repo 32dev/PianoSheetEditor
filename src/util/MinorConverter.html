@@ -2,151 +2,150 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<title>MIDI → Virtual Piano 문자 악보 변환기</title>
-<style>
-body {
-	font-family: monospace;
-	background: #f5f5f5;
-	padding: 20px;
-}
+	<meta charset="UTF-8">
+	<title>MIDI → Virtual Piano 문자 악보 변환기</title>
+	<style>
+		body {
+			font-family: monospace;
+			background: #f5f5f5;
+			padding: 20px;
+		}
 
-#output {
-	white-space: pre-wrap;
-	background: #fff;
-	padding: 15px;
-	border: 1px solid #ccc;
-	max-height: 400px;
-	overflow: auto;
-}
-</style>
+		#output {
+			white-space: pre-wrap;
+			background: #fff;
+			padding: 15px;
+			border: 1px solid #ccc;
+			max-height: 400px;
+			overflow: auto;
+		}
+	</style>
 </head>
 
 <body>
-	<h2>MIDI → Virtual Piano 문자 악보 변환기</h2>
+	<h2>Minor:MIDI → Virtual Piano 문자 악보 변환기</h2>
 	<input type="file" id="midi-file" accept=".mid,.midi">
 	<pre id="output">MIDI 파일을 선택하세요...</pre>
 
 	<script src="https://cdn.jsdelivr.net/npm/@tonejs/midi"></script>
 	<script>
-    // 🎹 Virtual Piano 문자 매핑 (사용자 요청 버전)
-    const midiToVpKey = {
-    		  "48": "1",
-    		  "49": "!",
-    		  "50": "2",
-    		  "51": "@",
-    		  "52": "3",
-    		  "53": "4",
-    		  "54": "$",
-    		  "55": "5",
-    		  "56": "6",
-    		  "57": "^",
-    		  "58": "7",
-    		  "59": "&",
-    		  "60": "8",
-    		  "61": "*",
-    		  "62": "9",
-    		  "63": "0",
-    		  "64": ")",
-    		  "65": "q",
-    		  "66": "Q",
-    		  "67": "w",
-    		  "68": "W",
-    		  "69": "e",
-    		  "70": "E",
-    		  "71": "r",
-    		  "72": "t",
-    		  "73": "T",
-    		  "74": "y",
-    		  "75": "Y",
-    		  "76": "u",
-    		  "77": "i",
-    		  "78": "I",
-    		  "79": "o",
-    		  "80": "O",
-    		  "81": "p",
-    		  "82": "P",
-    		  "83": "a",
-    		  "84": "s",
-    		  "85": "S",
-    		  "86": "d",
-    		  "87": "D",
-    		  "88": "f",
-    		  "89": "g",
-    		  "90": "G",
-    		  "91": "h",
-    		  "92": "H",
-    		  "93": "j",
-    		  "94": "J",
-    		  "95": "k",
-    		  "96": "l",
-    		  "97": "L",
-    		  "98": "z",
-    		  "99": "Z",
-    		  "100": "x",
-    		  "101": "c",
-    		  "102": "C",
-    		  "103": "v",
-    		  "104": "V",
-    		  "105": "b",
-    		  "106": "B",
-    		  "107": "n",
-    		  "108": "m",
-    		  "109": "M"
-    		}
+		// 🎹 Virtual Piano 문자 매핑 (사용자 요청 버전)
+		const midiToVpKey = {
+			"36": "1",
+			"37": "!",
+			"38": "2",
+			"39": "3",
+			"40": "#",
+			"41": "4",
+			"42": "$",
+			"43": "5",
+			"44": "6",
+			"45": "^",
+			"46": "7",
+			"47": "&",
+			"48": "8",
+			"49": "*",
+			"50": "9",
+			"51": "0",
+			"52": ")",
+			"53": "q",
+			"54": "Q",
+			"55": "w",
+			"56": "e",
+			"57": "E",
+			"58": "r",
+			"59": "R",
+			"60": "t",
+			"61": "T",
+			"62": "y",
+			"63": "u",
+			"64": "U",
+			"65": "i",
+			"66": "I",
+			"67": "o",
+			"68": "p",
+			"69": "P",
+			"70": "a",
+			"71": "A",
+			"72": "s",
+			"73": "S",
+			"74": "d",
+			"75": "f",
+			"76": "F",
+			"77": "g",
+			"78": "G",
+			"79": "h",
+			"80": "j",
+			"81": "J",
+			"82": "k",
+			"83": "K",
+			"84": "l",
+			"85": "L",
+			"86": "z",
+			"87": "x",
+			"88": "X",
+			"89": "c",
+			"90": "C",
+			"91": "v",
+			"92": "b",
+			"93": "B",
+			"94": "n",
+			"95": "N",
+			"96": "m",
+			"97": "M"
+		}
 
+		const TIME_THRESHOLD = 0.05; // 50ms 이내는 같은 타이밍
 
-    const TIME_THRESHOLD = 0.05; // 50ms 이내는 같은 타이밍
+		document.getElementById('midi-file').addEventListener('change', async function () {
+			const file = this.files[0];
+			if (!file) return;
 
-    document.getElementById('midi-file').addEventListener('change', async function () {
-      const file = this.files[0];
-      if (!file) return;
+			const reader = new FileReader();
+			reader.onload = async function (e) {
+				const midi = new Midi(e.target.result);
+				const events = [];
 
-      const reader = new FileReader();
-      reader.onload = async function (e) {
-        const midi = new Midi(e.target.result);
-        const events = [];
+				// 모든 노트 수집
+				midi.tracks.forEach(track => {
+					track.notes.forEach(note => {
+						const char = midiToVpKey[note.midi];
+						if (char) {
+							events.push({ time: note.time, char });
+						}
+					});
+				});
 
-        // 모든 노트 수집
-        midi.tracks.forEach(track => {
-          track.notes.forEach(note => {
-            const char = midiToVpKey[note.midi];
-            if (char) {
-              events.push({ time: note.time, char });
-            }
-          });
-        });
+				// 시간순 정렬
+				events.sort((a, b) => a.time - b.time);
 
-        // 시간순 정렬
-        events.sort((a, b) => a.time - b.time);
+				// 비슷한 시간끼리 묶기
+				const lines = [];
+				let currentLine = [];
+				let currentTime = null;
 
-        // 비슷한 시간끼리 묶기
-        const lines = [];
-        let currentLine = [];
-        let currentTime = null;
+				events.forEach(({ time, char }) => {
+					if (currentTime === null || Math.abs(time - currentTime) <= TIME_THRESHOLD) {
+						currentLine.push(char);
+						if (currentTime === null) currentTime = time;
+					} else {
+						lines.push(currentLine.sort().join(''));
+						currentLine = [char];
+						currentTime = time;
+					}
+				});
 
-        events.forEach(({ time, char }) => {
-          if (currentTime === null || Math.abs(time - currentTime) <= TIME_THRESHOLD) {
-            currentLine.push(char);
-            if (currentTime === null) currentTime = time;
-          } else {
-            lines.push(currentLine.sort().join(''));
-            currentLine = [char];
-            currentTime = time;
-          }
-        });
+				// 마지막 줄 추가
+				if (currentLine.length) {
+					lines.push(currentLine.sort().join(''));
+				}
 
-        // 마지막 줄 추가
-        if (currentLine.length) {
-          lines.push(currentLine.sort().join(''));
-        }
-
-        // 결과 출력
-        document.getElementById('output').textContent = lines.join('\n');
-      };
-      reader.readAsArrayBuffer(file);
-    });
-  </script>
+				// 결과 출력
+				document.getElementById('output').textContent = lines.join('\n');
+			};
+			reader.readAsArrayBuffer(file);
+		});
+	</script>
 </body>
 
 </html>
