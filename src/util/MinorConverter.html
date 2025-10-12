@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>MIDI → Virtual Piano 문자 악보 변환기</title>
+<style>
+body {
+	font-family: monospace;
+	background: #f5f5f5;
+	padding: 20px;
+}
+
+#output {
+	white-space: pre-wrap;
+	background: #fff;
+	padding: 15px;
+	border: 1px solid #ccc;
+	max-height: 400px;
+	overflow: auto;
+}
+</style>
+</head>
+
+<body>
+	<h2>MIDI → Virtual Piano 문자 악보 변환기</h2>
+	<input type="file" id="midi-file" accept=".mid,.midi">
+	<pre id="output">MIDI 파일을 선택하세요...</pre>
+
+	<script src="https://cdn.jsdelivr.net/npm/@tonejs/midi"></script>
+	<script>
+    // 🎹 Virtual Piano 문자 매핑 (사용자 요청 버전)
+    const midiToVpKey = {
+    		  "48": "1",
+    		  "49": "!",
+    		  "50": "2",
+    		  "51": "@",
+    		  "52": "3",
+    		  "53": "4",
+    		  "54": "$",
+    		  "55": "5",
+    		  "56": "6",
+    		  "57": "^",
+    		  "58": "7",
+    		  "59": "&",
+    		  "60": "8",
+    		  "61": "*",
+    		  "62": "9",
+    		  "63": "0",
+    		  "64": ")",
+    		  "65": "q",
+    		  "66": "Q",
+    		  "67": "w",
+    		  "68": "W",
+    		  "69": "e",
+    		  "70": "E",
+    		  "71": "r",
+    		  "72": "t",
+    		  "73": "T",
+    		  "74": "y",
+    		  "75": "Y",
+    		  "76": "u",
+    		  "77": "i",
+    		  "78": "I",
+    		  "79": "o",
+    		  "80": "O",
+    		  "81": "p",
+    		  "82": "P",
+    		  "83": "a",
+    		  "84": "s",
+    		  "85": "S",
+    		  "86": "d",
+    		  "87": "D",
+    		  "88": "f",
+    		  "89": "g",
+    		  "90": "G",
+    		  "91": "h",
+    		  "92": "H",
+    		  "93": "j",
+    		  "94": "J",
+    		  "95": "k",
+    		  "96": "l",
+    		  "97": "L",
+    		  "98": "z",
+    		  "99": "Z",
+    		  "100": "x",
+    		  "101": "c",
+    		  "102": "C",
+    		  "103": "v",
+    		  "104": "V",
+    		  "105": "b",
+    		  "106": "B",
+    		  "107": "n",
+    		  "108": "m",
+    		  "109": "M"
+    		}
+
+
+    const TIME_THRESHOLD = 0.05; // 50ms 이내는 같은 타이밍
+
+    document.getElementById('midi-file').addEventListener('change', async function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async function (e) {
+        const midi = new Midi(e.target.result);
+        const events = [];
+
+        // 모든 노트 수집
+        midi.tracks.forEach(track => {
+          track.notes.forEach(note => {
+            const char = midiToVpKey[note.midi];
+            if (char) {
+              events.push({ time: note.time, char });
+            }
+          });
+        });
+
+        // 시간순 정렬
+        events.sort((a, b) => a.time - b.time);
+
+        // 비슷한 시간끼리 묶기
+        const lines = [];
+        let currentLine = [];
+        let currentTime = null;
+
+        events.forEach(({ time, char }) => {
+          if (currentTime === null || Math.abs(time - currentTime) <= TIME_THRESHOLD) {
+            currentLine.push(char);
+            if (currentTime === null) currentTime = time;
+          } else {
+            lines.push(currentLine.sort().join(''));
+            currentLine = [char];
+            currentTime = time;
+          }
+        });
+
+        // 마지막 줄 추가
+        if (currentLine.length) {
+          lines.push(currentLine.sort().join(''));
+        }
+
+        // 결과 출력
+        document.getElementById('output').textContent = lines.join('\n');
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  </script>
+</body>
+
+</html>
