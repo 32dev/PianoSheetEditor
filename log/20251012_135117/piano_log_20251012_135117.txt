@@ -1,1 +1,0 @@
-{key: "1", midi : "36" note: "C1", time :0}, 

@@ -1,4 +1,0 @@
-{key: "1", midi : "36" note: "C1", time :0}, 
-{key: "!", midi : "37" note: "C#1", time :2239}, 
-{key: "2", midi : "38" note: "D1", time :3407}, 
-{key: "3", midi : "39" note: "D#1", time :4248}, 
