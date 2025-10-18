@@ -114,7 +114,7 @@ public abstract class AbstractPiano extends JFrame {
 					long elapsed = currentTime - startTime;
 					long delta = currentTime - lastKeyTime;
 
-					int spacesToAdd = (int) (delta / 250);
+					int spacesToAdd = (int) (delta / 125);
 					StringBuilder sb = new StringBuilder();
 					for (int i = 0; i < spacesToAdd; i++)
 						sb.append(" ");
