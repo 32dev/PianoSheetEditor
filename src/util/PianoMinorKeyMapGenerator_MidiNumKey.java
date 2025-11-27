@@ -13,7 +13,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class PianoMinorKeyMapGenerator_MidiNumKEy {
+public class PianoMinorKeyMapGenerator_MidiNumKey {
 
 	// 12음계
 	private static final String[] CHROMATIC_SCALE = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
