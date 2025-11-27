@@ -84,7 +84,7 @@ public abstract class AbstractPiano extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				saveTextAreaContentToFile();
 				dispose();
-				System.exit(0);
+//				System.exit(0);
 			}
 		});
 
