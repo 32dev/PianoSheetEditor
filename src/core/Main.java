@@ -18,7 +18,7 @@ import piano.Piano;
 public class Main extends JFrame {
 	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new GridLayout(12, 0));
+		setLayout(new GridLayout(12, 2));
 		setSize(800, 400);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -32,7 +32,7 @@ public class Main extends JFrame {
 		try (Stream<Path> stream = Files.list(dir)) {
 			stream.forEach(path -> {
 				String p = (path.getFileName().toString().split("\\."))[0];
-				if (p.contains("3")) {
+				if (p.contains("3") || p.contains("2")) {
 					// o3 filter
 					return;
 				}
